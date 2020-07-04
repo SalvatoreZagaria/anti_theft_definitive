@@ -5,7 +5,6 @@ import RPi.GPIO as GPIO
 
 from camera import take_picture
 from telegram_client import send_message, send_picture
-from anti_theft_system import MEDIA_DIR
 
 GPIO.setmode(GPIO.BCM)
 
@@ -16,6 +15,11 @@ GPIO.setup(pirPin1, GPIO.IN)
 GPIO.setup(pirPin2, GPIO.IN)
 
 n_pictures = 10
+
+WORKSPACE = os.environ.get("SYSTEM_WORKSPACE", None)
+if WORKSPACE is None:
+    raise Exception("Workspace not defined")
+MEDIA_DIR = os.path.join(WORKSPACE, "media")
 
 
 def intruder_detected(pirPin):
