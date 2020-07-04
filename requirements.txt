@@ -1,3 +1,8 @@
+async-generator==1.10
+pyaes==1.6.1
+pyasn1==0.4.8
+rsa==4.6
+Telethon==1.14.0
 picamera==1.13
 pkg-resources==0.0.0
 RPi.GPIO==0.7.0
