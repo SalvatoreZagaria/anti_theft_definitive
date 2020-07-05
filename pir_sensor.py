@@ -40,6 +40,10 @@ def intruder_detected():
         loop.run_until_complete(send_picture(full_image_name))
 
 
+def clear_GPIO():
+    GPIO.cleanup()
+
+
 def run_pir_sensors():
     time.sleep(0.2)
     print("Pir sensors running...")

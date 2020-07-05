@@ -17,6 +17,10 @@ def take_picture(full_image_name):
     camera.capture(full_image_name)
 
 
+def stop_preview():
+    camera.stop_preview()
+
+
 # Record video
 # camera.annotate_text = str(datetime.datetime.now())
 # camera.start_preview()
