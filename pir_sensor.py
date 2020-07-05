@@ -1,5 +1,6 @@
 import os
 import time
+import asyncio
 import datetime
 import RPi.GPIO as GPIO
 
@@ -16,6 +17,8 @@ GPIO.setup(pirPin2, GPIO.IN)
 
 n_pictures = 10
 
+loop = asyncio.get_event_loop()
+
 WORKSPACE = os.environ.get("SYSTEM_WORKSPACE", None)
 if WORKSPACE is None:
     raise Exception("Workspace not defined")
@@ -23,10 +26,10 @@ MEDIA_DIR = os.path.join(WORKSPACE, "media")
 
 
 def intruder_detected(pirPin):
-    current_timestamp = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    current_timestamp = datetime.datetime.now().strftime("%m_%d_%Y__%H_%M_%S")
     msg = "{}: {} detected an intruder!".format(current_timestamp, pirPin)
     print(msg)
-    send_message(msg)
+    loop.run_until_complete(send_message(msg))
 
     for i in range(n_pictures):
         pic_name = "{}_{}.jpg".format(current_timestamp, i)
@@ -35,7 +38,7 @@ def intruder_detected(pirPin):
         time.sleep(0.5)
 
         # send pic on Telegram
-        send_picture(full_image_name)
+        loop.run_until_complete(send_picture(full_image_name))
 
 
 def run_pir_sensors():

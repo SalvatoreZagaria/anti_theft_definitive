@@ -15,8 +15,10 @@ client = TelegramClient(session, api_id, api_hash)
 
 
 async def send_picture(file_name):
-    await client.send_file("me", file_name)
+    async with client:
+        await client.send_file("me", file_name)
 
 
 async def send_message(message):
-    await client.send_message("me", message)
+    async with client:
+        await client.send_message("me", message)
