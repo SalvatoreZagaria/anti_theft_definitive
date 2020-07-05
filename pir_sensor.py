@@ -41,10 +41,13 @@ def intruder_detected(pirPin):
 def run_pir_sensors():
     time.sleep(0.2)
     print("Pir sensors running...")
+
     try:
-        GPIO.add_event_detect(pirPin1, GPIO.RISING, callback=intruder_detected)
-        GPIO.add_event_detect(pirPin2, GPIO.RISING, callback=intruder_detected)
         while True:
-            time.sleep(0.3)
+            if GPIO.input(pirPin1):
+                intruder_detected(pirPin1)
+            elif GPIO.input(pirPin2):
+                intruder_detected(pirPin2)
+            time.sleep(0.1)
     except KeyboardInterrupt:
         GPIO.cleanup()
