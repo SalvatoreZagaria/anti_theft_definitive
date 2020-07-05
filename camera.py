@@ -7,15 +7,14 @@ camera.resolution = (1280, 720)
 camera.framerate = 15
 camera.rotation = 180
 camera.annotate_text_size = 10
+camera.start_preview()
 
 
 def take_picture(full_image_name):
     current_time = datetime.datetime.now()
     camera.annotate_text = current_time.strftime("%m/%d/%Y, %H:%M:%S")
 
-    camera.start_preview()
     camera.capture(full_image_name)
-    camera.stop_preview()
 
 
 # Record video

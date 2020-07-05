@@ -25,9 +25,9 @@ if WORKSPACE is None:
 MEDIA_DIR = os.path.join(WORKSPACE, "media")
 
 
-def intruder_detected(pirPin):
+def intruder_detected():
     current_timestamp = datetime.datetime.now().strftime("%m_%d_%Y__%H_%M_%S")
-    msg = "{}: {} detected an intruder!".format(current_timestamp, pirPin)
+    msg = "{}: intruder detected!".format(current_timestamp)
     print(msg)
     loop.run_until_complete(send_message(msg))
 
@@ -35,7 +35,6 @@ def intruder_detected(pirPin):
         pic_name = "{}_{}.jpg".format(current_timestamp, i)
         full_image_name = os.path.join(MEDIA_DIR, pic_name)
         take_picture(full_image_name)
-        time.sleep(0.5)
 
         # send pic on Telegram
         loop.run_until_complete(send_picture(full_image_name))
@@ -47,10 +46,8 @@ def run_pir_sensors():
 
     try:
         while True:
-            if GPIO.input(pirPin1):
-                intruder_detected(pirPin1)
-            elif GPIO.input(pirPin2):
-                intruder_detected(pirPin2)
+            if GPIO.input(pirPin1) or GPIO.input(pirPin2):
+                intruder_detected()
             time.sleep(0.1)
     except KeyboardInterrupt:
         GPIO.cleanup()
